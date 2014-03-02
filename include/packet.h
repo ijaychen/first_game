@@ -6,8 +6,13 @@
 #ifndef PACKET_H
 #define PACKET_H
 #include <stdio.h>
+#include "global.h"
 namespace common{
+
 typedef	unsigned short ushort;
+typedef unsigned int uint;
+
+const 
 
 typedef enum MsgVersion
 {
@@ -51,6 +56,28 @@ private:
 	ushort m_msg_version;
 	ushort m_msg_type;
 	ushort m_msg_len;
+};
+
+
+class ChatMsg
+{
+public:
+	ChatMsg():m_msg_len(0){ memset(m_chat_msg, 0, sizeof(m_chat_msg));}
+	void SetChatMsg(const char * _msg, int _len)
+	{
+		if(_len > CHAT_MSG_MAX_LEN)
+		{
+			/*rizhi*/
+			printf("chat msg max len : %d, your msg len is: %d", CHAT_MSG_MAX_LEN, _len);
+		}
+		memcpy(m_chat_msg, _msg, _len);
+		m_msg_len = _len;
+	}
+
+	void test(){printf("Msg: %s, len: %d", m_chat_msg, m_msg_len);}
+private:
+	int m_msg_len;
+	char m_chat_msg[CHAT_MSG_MAX_LEN];
 };
 
 }//end of namespace common
