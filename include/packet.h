@@ -6,6 +6,7 @@
 #ifndef PACKET_H
 #define PACKET_H
 #include <stdio.h>
+#include <string.h>
 #include "global.h"
 namespace common{
 
@@ -73,9 +74,14 @@ public:
 		memcpy(m_chat_msg, _msg, _len);
 		m_msg_len = _len;
 	}
+	void SetTargetId(int _targetId)
+	{
+		m_targetId = _targetId;
+	}
 
 	void test(){printf("Msg: %s, len: %d", m_chat_msg, m_msg_len);}
 private:
+	int m_targetId;
 	int m_msg_len;
 	char m_chat_msg[CHAT_MSG_MAX_LEN];
 };
