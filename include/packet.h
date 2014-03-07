@@ -13,7 +13,6 @@ namespace common{
 typedef	unsigned short ushort;
 typedef unsigned int uint;
 
-const 
 
 typedef enum MsgVersion
 {
@@ -26,7 +25,7 @@ typedef enum MsgType
 	//for chat
 	MsgChatWorld = 1,
 	MsgChatPrivate,
-	MsgChatFaction,
+	MsgChatChannel,
 
 	//for action
 	MsgActMove = 10,

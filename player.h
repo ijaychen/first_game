@@ -10,13 +10,14 @@
 #include <map>
 #include <string>
 
-class PlayerInfo;
 
 namespace game_server
 {
+class PlayerInfo;
 class Player
 {
 public:
+	Player(){}
 	Player(int _sock, PlayerInfo & _playerInfo);
 	virtual ~Player();
 
