@@ -41,6 +41,11 @@ public:
 	{
 		m_msg_type = _msgType;
 	}
+	
+	EnumMsgType GetMsgType() const
+	{
+		return m_msg_type;
+	}
 
 	inline void SetMsgVersion(EnumMsgVersion _msgVersion)
 	{
@@ -51,6 +56,12 @@ public:
 	{
 		m_msg_len = _msgLen;
 	}
+
+	int GetMsgLen() const 
+	{
+		return m_msg_len;
+	}
+
 	void test(){ printf("ver:%d, type:%d size:%d\n", m_msg_version, m_msg_type, sizeof(EnumMsgType)); }
 private:
 	ushort m_msg_version;
@@ -77,6 +88,7 @@ public:
 	{
 		m_targetId = _targetId;
 	}
+	bool SendStream();
 
 	void test(){printf("Msg: %s, len: %d", m_chat_msg, m_msg_len);}
 private:

@@ -7,12 +7,32 @@
 #ifndef INPUT_SOCKET_STREAM_H
 #define INPUT_SOCKET_STREAM_H
 
+#include "command_define.h"
+
 namespace game_server
 {
 
 class InputSocketStream
 {
+public:
+	InputSocketStream(int sock);
+	virtual ~InputSocketStream();
+	bool ReadStream(char * buf, int len);
+	bool PeekStream(char * buf, int len);
+	bool FillStream();
 
+private:
+	bool DoubleSize();
+	InputSocketStream(const InputSocketStream &);
+	InputSocketStream& operator= (const InputSocketStream &);
+private:
+	char * m_buff;
+	char * m_tempBuff;
+	int m_nHead;
+	int m_nTail;
+	int m_nFreeSize;
+	int m_socket;
+	int m_nTotalSize;
 };
 
 

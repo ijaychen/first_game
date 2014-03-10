@@ -12,7 +12,26 @@ namespace game_server
 
 class OutputSocketStream
 {
+public:
+	OutputSocketStream(int sock);
+	virtual ~OutputSocketStream();
 
+	bool WriteStream(const char * buff, int len);
+	bool SendStream();
+private:
+	bool DoubleSize();
+
+private:
+	OutputSocketStream(const OutputSocketStream &);
+	OutputSocketStream& operator= (const OutputSocketStream&);
+
+private:
+	char * m_buff;
+	int m_nHead;
+	int m_nTail;
+	int m_socket;
+	int m_nTotalSize;
+	int m_nFreeSize;
 
 };
 
