@@ -20,6 +20,10 @@ public:
 	bool ReadStream(char * buf, int len);
 	bool PeekStream(char * buf, int len);
 	bool FillStream();
+	int GetAllPacketSize() const
+	{
+		return m_nTotalSize - m_nFreeSize;
+	}
 
 private:
 	bool DoubleSize();

@@ -42,7 +42,7 @@ public:
 		m_msg_type = _msgType;
 	}
 	
-	EnumMsgType GetMsgType() const
+	ushort GetMsgType() const
 	{
 		return m_msg_type;
 	}

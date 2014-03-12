@@ -7,9 +7,10 @@
 #ifndef PLAY_MANAGER_H
 #define PLAY_MANAGER_H
 
-class Player;
+#include "player.h"
 
 namespace game_server{
+
 
 class PlayerManager
 {
@@ -22,11 +23,17 @@ public:
 
 	bool AddPlayer(int _sock);
 	bool DelPlayer(int _sock);
-	bool GetMessage();
+	bool RecvPacket(int);
+	bool ProcessPacket();
 
 
 private:
-	PlayerManager();
+	PlayerManager(){}
+	PlayerManager(const PlayerManager&);
+	PlayerManager & operator=(const PlayerManager &);
+
+private:
+	PlayerMap m_playerMap;
 };
 
 

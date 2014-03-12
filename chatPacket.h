@@ -9,16 +9,16 @@
 
 #include "msgPacket.h"
 
-class ChatMsg;
 
 namespace game_server
 {
+class ChatMsg;
 
 class ChatPacket : public MsgPacket
 {
 public:
-	bool ReadMessage(InputSocketStream &_inStream);
-	bool WriteMessage(OutputSocketStream &_outStream);
+	bool ReadStream(InputSocketStream &_inStream);
+	bool WriteStream(OutputSocketStream &_outStream);
 	virtual bool Execute(Player * _Player) {}
 private:
 	ChatMsg * m_chatPacket;

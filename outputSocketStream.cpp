@@ -6,6 +6,8 @@
 
 #include "outputSocketStream.h"
 #include "command_define.h"
+#include <string.h>
+#include <unistd.h>
 
 namespace game_server{
 
@@ -43,7 +45,7 @@ bool OutputSocketStream::SendStream()
 	{
 		int rightLen = m_nTotalSize - m_nHead;
 		write(m_socket, &m_buff[m_nHead], rightLen);
-		write(m_socket, m_buff, m_nTtail);
+		write(m_socket, m_buff, m_nTail);
 	}
 	m_nHead = 0;
 	m_nTail = 0;
@@ -51,7 +53,7 @@ bool OutputSocketStream::SendStream()
 }
 
 
-bool OutputStream::WriteStream(const char * buff, int len)
+bool OutputSocketStream::WriteStream(const char * buff, int len)
 {
 	if(0 == len)
 	{
@@ -71,8 +73,8 @@ bool OutputStream::WriteStream(const char * buff, int len)
 		int rightLen = m_nTotalSize - m_nTail;
 		if(rightLen < len )
 		{
-			memcpy(&m_buff[m_nTtail], buff, rightLen);
-			memcpy(&m_buff[0], buff[rightLen], len - rightLen);
+			memcpy(&m_buff[m_nTail], buff, rightLen);
+			memcpy(&m_buff[0], &buff[rightLen], len - rightLen);
 		}
 		else
 		{
@@ -104,13 +106,14 @@ bool OutputSocketStream::DoubleSize()
 	}
 	else
 	{
-		memcpy(buff, &temp[m_nHead], m_nTotalSize - m_nHead);
-		memcpy(&buff[m_nTotalSize - m_nHead], temp, m_nTail);
+		memcpy(m_buff, &temp[m_nHead], m_nTotalSize - m_nHead);
+		memcpy(&m_buff[m_nTotalSize - m_nHead], temp, m_nTail);
 	}
 	m_nTotalSize *= 2;
 	m_nFreeSize += m_nTotalSize;
 	m_nHead = 0;
 	m_nTail = m_nTotalSize - m_nFreeSize;
+	delete []temp;
 	return true;
 }
 

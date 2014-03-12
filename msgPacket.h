@@ -17,8 +17,8 @@ class Player;
 class MsgPacket
 {
 public:
-	virtual bool ReadMessage(InputSocketStream &_inStream){};
-	virtual bool WriteMessage(OutputSocketStream &_outStream){};
+	virtual bool ReadStream(InputSocketStream &_inStream){};
+	virtual bool WriteStream(OutputSocketStream &_outStream){};
 	virtual bool Execute(Player * _player){};
 
 };

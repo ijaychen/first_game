@@ -10,5 +10,9 @@ const int STREAM_BUFFER_SIZE = 1024 * 64;
 const int SOCKET_BUFFER_SIZE = 1024 * 2;
 
 
+//server socket
+const int MAX_SERVER_LISTEN = 1024;
+
+
 #endif
 

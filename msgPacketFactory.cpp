@@ -27,7 +27,7 @@ MsgPacketFactory::~MsgPacketFactory()
 
 }
 
-MsgPacket* MsgPacketFactory::CreatePacket(common::EnumMsgType _type)
+MsgPacket* MsgPacketFactory::CreatePacket(unsigned short _type)//common::EnumMsgType _type)
 {
 	MsgPacket * tempPacket = NULL;
 	switch(_type)

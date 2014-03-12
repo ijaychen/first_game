@@ -12,12 +12,13 @@
 
 namespace game_server{
 
-Player::Player(int _sock, PlayerInfo & _playerInfo)
+Player::Player(int _sock, PlayerInfo * _playerInfo)
 {
 	m_socket = _sock;
-	m_playerName = _playerInfo.GetPlayerName();
+	m_playerName = _playerInfo->GetPlayerName();
 	m_pInputStream = new InputSocketStream(_sock);
 	m_pOutputStream = new OutputSocketStream(_sock);
+	m_pMsgPacketFactory = MsgPacketFactory::GetInstance();
 }
 
 Player::~Player()
@@ -40,22 +41,40 @@ bool Player::SetOutputPacket(const char * buff, int len)
 {
 	if(m_pOutputStream)
 	{
-		return m_pOutoutStream->WriteString(buff, len);
+		return m_pOutputStream->WriteStream(buff, len);
 	}
 	else
 		return false;
 }
 
+bool Player::SendMessage()
+{
+	m_pOutputStream->SendStream();
+}
+
+
 bool Player::ProcessPacket()
 {
-	MsgHead packHead;
-
+	common::MsgHead packHead;
+	MsgPacket * pMsgPack = NULL;
 	if(m_pInputStream->PeekStream((char*)&packHead, sizeof(packHead)))
 	{
-		if(EnumMsgType::None == packHead.GetMsgType())
+		if(common::EnumMsgType::None == packHead.GetMsgType())
 		{
 			//log
 			return false;
+		}
+		if(m_pInputStream->GetAllPacketSize() < packHead.GetMsgLen())
+		{
+			//log
+			return false;
+		}
+		m_pInputStream->ReadStream((char*)&packHead, sizeof(packHead));
+		pMsgPack = m_pMsgPacketFactory->CreatePacket(packHead.GetMsgType());
+		if(pMsgPack)
+		{
+			pMsgPack->ReadStream(*m_pInputStream);
+			pMsgPack->Execute(this);
 		}
 	}
 

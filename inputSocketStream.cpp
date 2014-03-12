@@ -5,10 +5,12 @@
  ************************************************************************/
 
 #include "inputSocketStream.h"
+#include <string.h>
+#include <unistd.h>
 
 namespace game_server{
 
-InputSocketStream(int sock)
+InputSocketStream::InputSocketStream(int sock)
 {
 	m_buff = new char[STREAM_BUFFER_SIZE];
 	if(!m_buff)
@@ -25,7 +27,7 @@ InputSocketStream(int sock)
 	}
 
 	m_nHead = m_nTail = 0;
-	m_nFreeSize = m_nTotalLen = STREAM_BUFFER_SIZE;
+	m_nFreeSize = m_nTotalSize = STREAM_BUFFER_SIZE;
 
 	m_socket = sock;
 
@@ -121,7 +123,7 @@ bool InputSocketStream::FillStream()
 	{
 		memcpy(&m_buff[m_nTail], m_tempBuff, len);	
 	}
-	m_nTail = (m_nTail + len) % m_TotalSize;
+	m_nTail = (m_nTail + len) % m_nTotalSize;
 	m_nFreeSize -= len;
 	return true;
 }
@@ -129,7 +131,7 @@ bool InputSocketStream::FillStream()
 bool InputSocketStream::DoubleSize()
 {
 	char * temp = m_buff;
-	m_buff = new char[m_nTotalLen * 2];
+	m_buff = new char[m_nTotalSize * 2];
 	if(!m_buff)
 	{
 		//log
@@ -143,12 +145,12 @@ bool InputSocketStream::DoubleSize()
 	else
 	{
 		memcpy(m_buff, &temp[m_nHead], m_nTotalSize - m_nHead);
-		memcpy(&m_buff[m_nTotaSize - m_nHead], temp, m_nTail);
+		memcpy(&m_buff[m_nTotalSize - m_nHead], temp, m_nTail);
 	}
-	m_nFreeSize += m_nTotalLen;
-	m_nTotalLen *= 2;
+	m_nFreeSize += m_nTotalSize;
+	m_nTotalSize *= 2;
 	m_nHead = 0;
-	m_nTail = m_nTotalLen - m_nFreeSize;
+	m_nTail = m_nTotalSize - m_nFreeSize;
 	delete []temp;
 	return true;
 }

@@ -16,12 +16,12 @@ using namespace std;
 namespace game_server
 {
 
-bool ChatPacket::ReadMessage(InputSocketStream &_inStream)
+bool ChatPacket::ReadStream(InputSocketStream &_inStream)
 {
 	return false;
 }
 
-bool ChatPacket::WriteMessage(OutputSocketStream &_outStream)
+bool ChatPacket::WriteStream(OutputSocketStream &_outStream)
 {
 	return false;
 }

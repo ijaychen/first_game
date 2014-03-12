@@ -22,7 +22,7 @@ public:
 		static MsgPacketFactory _instance;
 		return &_instance;
 	}
-	MsgPacket * CreatePacket(common::EnumMsgType _type);
+	MsgPacket * CreatePacket(unsigned short _type);//common::EnumMsgType _type);
 	virtual ~MsgPacketFactory();
 
 private:
