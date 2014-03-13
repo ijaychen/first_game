@@ -11,6 +11,9 @@
 #include "gameServer.h"
 #include "socketSet.h"
 #include "command_define.h"
+#include "base/logger.h"
+
+#include <stdio.h>
 
 namespace game_server
 {
@@ -20,13 +23,13 @@ GameServer::GameServer()
 	m_playerManager = PlayerManager::GetInstance();
 	if(!m_playerManager)
 	{
-		//log
+		LOG_DEBUG("GameServer.cpp: PlayerManager GetInstance error\n");
 		return ;
 	}
 	m_clientSet = SocketSet::GetInstance();
 	if(!m_clientSet)
 	{
-		//log
+		LOG_DEBUG("GameServer.cpp: SocketSet GetInstance error\n");
 		return;
 	}
 	FD_ZERO(&m_fdReads);
@@ -38,7 +41,7 @@ bool GameServer::InitSocket(int nPort)
 	m_serverSocket = socket(AF_INET, SOCK_STREAM, 0);
 	if(-1 == m_serverSocket)
 	{
-		//log
+		LOG_DEBUG("socket error: %m");
 		return false;
 	}
 	sockaddr_in serverAddr = {0};
@@ -59,7 +62,8 @@ bool GameServer::InitSocket(int nPort)
 		close(m_serverSocket);
 		return false;
 	}
-
+	printf("initialize socket success\n");
+	printf("port:%d\n", nPort);
 	return true;
 }
 
@@ -79,6 +83,7 @@ bool GameServer::InitSelect()
 	if(-1 == res)
 	{
 		//log
+		printf("select:%m\n");
 		return false;
 	}
 	if(FD_ISSET(m_serverSocket, &m_fdReads))
@@ -93,6 +98,7 @@ bool GameServer::InitSelect()
 	{
 		if(-1 != *sockSetIter && FD_ISSET(*sockSetIter, &m_fdReads))
 		{
+			LOG_DEBUG("read fd: %d", *sockSetIter);//printf("reads fd:%d\n", *sockSetIter);
 			m_playerManager->RecvPacket(*sockSetIter);		
 		}
 	}
@@ -107,6 +113,7 @@ int GameServer::AcceptClient()
 	if(-1 == fdClient)
 	{
 		//log
+		printf("accept client error\n");
 		return -1;
 	}
 	return fdClient;
@@ -124,6 +131,11 @@ bool GameServer::StartServer()
 	{
 		return false;
 	}
+	return true;
+}
+
+bool GameServer::Work()
+{
 	if(!InitSelect())
 	{
 		return false;

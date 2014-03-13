@@ -22,6 +22,7 @@ public:
 		return &_instance;
 	}
 	bool StartServer();
+	bool Work();
 	bool ProcessCommand();
 
 private:

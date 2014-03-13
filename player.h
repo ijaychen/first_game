@@ -21,8 +21,7 @@ class PlayerInfo;
 class Player
 {
 public:
-	Player(){}
-	Player(int _sock, PlayerInfo * _playerInfo);
+	Player(int _sock, PlayerInfo * _playerInfo = 0);
 	virtual ~Player();
 
 	bool GetInputPacket();

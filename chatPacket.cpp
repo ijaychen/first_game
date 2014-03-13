@@ -4,7 +4,7 @@
 	> Created Time: Fri 07 Mar 2014 01:16:18 PM CST
  ************************************************************************/
 
-#include <iostream>
+#include <stdio.h>
 #include "./include/packet.h"
 #include "inputSocketStream.h"
 #include "outputSocketStream.h"
@@ -28,20 +28,20 @@ bool ChatPacket::WriteStream(OutputSocketStream &_outStream)
 
 bool ChatWorldPacket::Execute(Player * _player)
 {
-	std::cout << "chat world execute!\n";
+	printf("chat world execute!\n");
 	return true;
 
 }
 
 bool ChatChannelPacket::Execute(Player * _player)
 {
-	std::cout << "chat channel execute!\n";
+	printf("chat channel execute!\n");
 	return true;
 }
 
 bool ChatPrivatePacket::Execute(Player * _player)
 {
-	std::cout << "chat private execute!\n";
+	printf("chat private execute!\n");
 	return true;
 }
 

@@ -11,6 +11,8 @@
 
 namespace game_server
 {
+class PlayerManager;
+class SocketSet;
 
 class InputSocketStream
 {
@@ -37,6 +39,8 @@ private:
 	int m_nFreeSize;
 	int m_socket;
 	int m_nTotalSize;
+	PlayerManager * m_playerManager;
+	SocketSet * m_socketSet;
 };
 
 

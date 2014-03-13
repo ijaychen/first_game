@@ -32,17 +32,17 @@ MsgPacket* MsgPacketFactory::CreatePacket(unsigned short _type)//common::EnumMsg
 	MsgPacket * tempPacket = NULL;
 	switch(_type)
 	{
-		case common::EnumMsgType::MsgChatWorld:
+		case common::MsgChatWorld:
 		{
 			tempPacket = pChatWorldMsgPacket;
 		}
 		break;
-		case common::EnumMsgType::MsgChatPrivate:
+		case common::MsgChatPrivate:
 		{
 			tempPacket = pChatPrivateMsgPacket;
 		}
 		break;
-		case common::EnumMsgType::MsgChatChannel:
+		case common::MsgChatChannel:
 		{
 			tempPacket = pChatChannelMsgPacket;
 		}

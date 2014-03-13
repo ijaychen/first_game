@@ -4,6 +4,7 @@
 	> Created Time: Mon 10 Mar 2014 02:22:30 PM CST
  ************************************************************************/
 #include "playerManager.h"
+#include <stdio.h>
 
 namespace game_server{
 
@@ -30,11 +31,13 @@ bool PlayerManager::DelPlayer(int _sock)
 	}	
 	//erase map
 	m_playerMap.erase(iter);
+	return true;
 }
 
 bool PlayerManager::RecvPacket(int _clientSocket)
 {
 	Player * player = m_playerMap[_clientSocket];
+
 	if(player)
 	{
 		player->GetInputPacket();

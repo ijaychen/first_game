@@ -5,8 +5,12 @@
  ************************************************************************/
 
 #include "inputSocketStream.h"
+#include "playerManager.h"
+#include "socketSet.h"
+#include "./base/logger.h"
 #include <string.h>
 #include <unistd.h>
+#include <stdio.h>
 
 namespace game_server{
 
@@ -16,12 +20,14 @@ InputSocketStream::InputSocketStream(int sock)
 	if(!m_buff)
 	{
 		//log
+		printf("input buff malloc error\n");
 		return;
 	}
 	m_tempBuff = new char[STREAM_BUFFER_SIZE];
 	if(!m_tempBuff)
 	{
 		//log
+		printf("input temp buff malloc error\n");
 		delete m_buff;
 		return;
 	}
@@ -30,6 +36,8 @@ InputSocketStream::InputSocketStream(int sock)
 	m_nFreeSize = m_nTotalSize = STREAM_BUFFER_SIZE;
 
 	m_socket = sock;
+	m_playerManager = PlayerManager::GetInstance();
+	m_socketSet = SocketSet::GetInstance();
 
 }
 
@@ -91,12 +99,15 @@ bool InputSocketStream::ReadStream(char * buf, int len)
 
 bool InputSocketStream::FillStream()
 {
-	memcpy(m_tempBuff, 0, sizeof(m_tempBuff));
+	memset(m_tempBuff, 0, sizeof(m_tempBuff));
 	int len = read(m_socket, m_tempBuff, SOCKET_BUFFER_SIZE);
 	if(-1 == len || 0 == len)
 	{
 		//发送玩家离开消息
-		//写日志
+		m_playerManager->DelPlayer(m_socket);
+		m_socketSet->RemoveSocket(m_socket);
+		LOG_DEBUG("player leave\n");
+		return true;
 	}
 	if(m_nFreeSize < len)
 	{

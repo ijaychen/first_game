@@ -9,13 +9,18 @@
 #include "inputSocketStream.h"
 #include "outputSocketStream.h"
 #include "msgPacketFactory.h"
+#include <stdio.h>
 
 namespace game_server{
 
 Player::Player(int _sock, PlayerInfo * _playerInfo)
 {
 	m_socket = _sock;
-	m_playerName = _playerInfo->GetPlayerName();
+	printf("玩家socket：%d\n", _sock);
+	if(_playerInfo)
+	{
+		m_playerName = _playerInfo->GetPlayerName();
+	}
 	m_pInputStream = new InputSocketStream(_sock);
 	m_pOutputStream = new OutputSocketStream(_sock);
 	m_pMsgPacketFactory = MsgPacketFactory::GetInstance();
@@ -59,7 +64,7 @@ bool Player::ProcessPacket()
 	MsgPacket * pMsgPack = NULL;
 	if(m_pInputStream->PeekStream((char*)&packHead, sizeof(packHead)))
 	{
-		if(common::EnumMsgType::None == packHead.GetMsgType())
+		if(common::None == packHead.GetMsgType())
 		{
 			//log
 			return false;

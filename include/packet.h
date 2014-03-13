@@ -14,12 +14,12 @@ typedef	unsigned short ushort;
 typedef unsigned int uint;
 
 
-typedef enum MsgVersion
+enum EnumMsgVersion
 {
 	VerFirst = 1
-}EnumMsgVersion;
+};//EnumMsgVersion;
 
-typedef enum MsgType
+enum EnumMsgType
 {
 	None = 0,
 	//for chat
@@ -30,12 +30,12 @@ typedef enum MsgType
 	//for action
 	MsgActMove = 10,
 	MsgActAttack
-}EnumMsgType;
+};//EnumMsgType;
 
 class MsgHead
 {
 public:
-	MsgHead():m_msg_version(EnumMsgVersion::VerFirst), m_msg_type(EnumMsgType::None){}
+	MsgHead():m_msg_version(VerFirst), m_msg_type(None){}
 	
 	inline void SetMsgType(EnumMsgType _msgType)
 	{

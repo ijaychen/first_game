@@ -8,6 +8,7 @@
 #define SOCKET_SET_H
 
 #include <set>
+#include <unistd.h>
 
 namespace game_server
 {
@@ -33,6 +34,7 @@ public:
 		if(iter != m_socketSet.end())
 		{
 			m_socketSet.erase(iter);
+			close(*iter);
 		}
 		return true;
 	}

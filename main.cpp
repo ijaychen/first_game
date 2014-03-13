@@ -8,9 +8,11 @@
 int main()
 {
 	game_server::GameServer * gameServer = game_server::GameServer::GetInstance();
+	gameServer->StartServer();
+
 	while(1)
 	{
-		gameServer->StartServer();
+		gameServer->Work();
 		gameServer->ProcessCommand();
 	}
 	return 1;
